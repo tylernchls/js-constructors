@@ -21,6 +21,15 @@
   return this.name + ' costs ' + this.cost + 'and is ' + this.description;
  }
 
+ function DamageSpell(name, cost, damage, description){
+  Spell.call(this, name, cost, description)
+  this.damage = damage;
+ }
+
+ DamageSpell.prototype = Object.create(Spell.prototype, {
+  constructor : DamageSpell
+ });
+
 
   /**
    * Returns a string of all of the spell's details.
