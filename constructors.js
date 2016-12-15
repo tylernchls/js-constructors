@@ -1,15 +1,3 @@
-/**
- * Creates a generic spell that can be cast.
- *
- * @name Spell
- * @param {string} name         The name of the spell.
- * @param {number} cost         The amount needed to cast this spell.
- * @param {string} description  A short description of the spell.
- * @property {string} name
- * @property {number} cost
- * @property {string} description
- * @method   getDetails
- */
 
  function Spell(name, cost, description) {
   this.name = name;
@@ -62,18 +50,20 @@
   // method for Spellcaster
   Spellcaster.prototype.invoke = function(spell, target) {
     if(spell instanceof(Spell) === false && spell instanceof(DamageSpell) === false ) {
-      return false;
+      return false;   // returns false if not an instance of either
     }
 
-    if (spell instanceof(DamageSpell)) {
-      if (this.mana >= spell.cost) {
-        this.spendMana(spell.cost);
-        target.inflictDamage(spell, damage);
+    if(spell instanceof(DamageSpell) && (target != null || target != undefined)) {   // validates that is instance of spell & has a target
+      // console.log('test');
+      if (this.mana >= spell.cost) {   // money > than spell cost
+        this.spendMana(spell.cost); // subtracts spell cost from mana through method
+        target.inflictDamage(spell.damage);  // inflicts damage of spell
         return true;
       } else {
         return false;  // false if doesnt have enough money for spell
       }
-    } else if (spell instanceof(Spell)) {
+    } else if (!(spell instanceof(DamageSpell))) { // checks if spell is instance of damageSpell and not instance of Spell
+      // console.log('line');
       if (this.mana >= spell.cost) {
         this.spendMana(spell.cost);
         return true;
@@ -85,6 +75,7 @@
     }
   }
 
+// end SpellCastor
 
 
 
@@ -101,7 +92,18 @@
 
 
 
-
+/**
+ * Creates a generic spell that can be cast.
+ *
+ * @name Spell
+ * @param {string} name         The name of the spell.
+ * @param {number} cost         The amount needed to cast this spell.
+ * @param {string} description  A short description of the spell.
+ * @property {string} name
+ * @property {number} cost
+ * @property {string} description
+ * @method   getDetails
+ */
 
   /**
    * Returns a string of all of the spell's details.
