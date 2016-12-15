@@ -20,9 +20,9 @@
  Spell.prototype.getDetails = function() {  // get details method of Spell
   return this.name + ' costs ' + this.cost + 'and is ' + this.description;
  }
+ // end Spell
 
-
-
+ // Damage prototype
  function DamageSpell(name, cost, damage, description){
   Spell.call(this, name, cost, description) // grabs Spell properties to use
   this.damage = damage;
@@ -32,24 +32,67 @@
   constructor : DamageSpell
  });
 
+ // end proto
 
 
-
-
- function Spellcaster(name, health, mana) {
+ // start SpellCaster
+ function Spellcaster(name, health, mana) {  // Spellcaster proto
   this.name = name;
   this.health = health;
   this.mana = mana;
   this.isAlive = true;
  }
-
-  Spellcaster.prototype.inflictDamage = function(damage) {   // method of Spellcaster
+ // method of Spellcaster
+  Spellcaster.prototype.inflictDamage = function(damage) {
     this.health -= damage;  // amount damage is subtracted from health
     if (this.health <= 0) { // makes health not able to be negative
       this.isAlive = false; // if health is zero, sets isAlive to false
       this.health = 0; // sets health to zero
     }
   }
+  // method for Spellcaster
+  Spellcaster.prototype.spendMana = function(cost) {
+    if (this.mana >= 0 && cost <= this.mana) {  // $ > 0 and cost < money you have
+      this.mana -= cost; // subtracts costs from mana
+      return true;
+    } else {
+      return false;
+    }
+  }
+  // method for Spellcaster
+  Spellcaster.prototype.invoke = function(spell, target) {
+    if (spell instanceof(DamageSpell)){
+      if (this.mana >= spell.cost) {
+        this.spendMana(spell.cost);
+        target.inflictDamage(spell, damage);
+
+        return true;
+      } else {
+        return false;
+      }
+    }  else if (spell instanceof(Spell)) {
+      if (this.mana >= spell.cost) {
+        this.spendMana(spell.cost);
+        return true;
+      } else {
+        return false;
+      }
+    } else {      // is neither spell or damage spell
+      return false;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -152,3 +195,18 @@
    * @param  {Spellcaster} target         The spell target to be inflicted.
    * @return {boolean}                    Whether the spell was successfully cast.
    */
+
+
+// function runGame(){
+//   var player1 = new Spellcaster('tyler', 100, 80);
+//   var player2 = new Spellcaster('frank', 100, 200);
+
+//   var setFire = new DamageSpell("fire", 50, 30, 'sets fire to opponent');
+
+//   var daze = new Spell('confuse', 80, 'confuses opponent');
+
+//   player1.invoke(setFire, player2)
+// }
+
+
+// runGame();
