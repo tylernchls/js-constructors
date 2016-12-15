@@ -61,26 +61,31 @@
   }
   // method for Spellcaster
   Spellcaster.prototype.invoke = function(spell, target) {
-    if (spell instanceof(DamageSpell)){
+    if(spell instanceof(Spell) === false && spell instanceof(DamageSpell) === false ) {
+      return false;
+    }
+
+    if (spell instanceof(DamageSpell)) {
       if (this.mana >= spell.cost) {
         this.spendMana(spell.cost);
         target.inflictDamage(spell, damage);
-
         return true;
       } else {
-        return false;
+        return false;  // false if doesnt have enough money for spell
       }
-    }  else if (spell instanceof(Spell)) {
+    } else if (spell instanceof(Spell)) {
       if (this.mana >= spell.cost) {
         this.spendMana(spell.cost);
         return true;
       } else {
-        return false;
+        return false; // doesnt have money for spell
       }
-    } else {      // is neither spell or damage spell
+    } else {
       return false;
     }
   }
+
+
 
 
 
