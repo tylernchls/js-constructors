@@ -17,18 +17,42 @@
   this.description = description;
  }
 
- Spell.prototype.getDetails = function() {
+ Spell.prototype.getDetails = function() {  // get details method of Spell
   return this.name + ' costs ' + this.cost + 'and is ' + this.description;
  }
 
+
+
  function DamageSpell(name, cost, damage, description){
-  Spell.call(this, name, cost, description)
+  Spell.call(this, name, cost, description) // grabs Spell properties to use
   this.damage = damage;
  }
 
  DamageSpell.prototype = Object.create(Spell.prototype, {
   constructor : DamageSpell
  });
+
+
+
+
+
+ function Spellcaster(name, health, mana) {
+  this.name = name;
+  this.health = health;
+  this.mana = mana;
+  this.isAlive = true;
+ }
+
+  Spellcaster.prototype.inflictDamage = function(damage) {   // method of Spellcaster
+    this.health -= damage;  // amount damage is subtracted from health
+    if (this.health <= 0) { // makes health not able to be negative
+      this.isAlive = false; // if health is zero, sets isAlive to false
+      this.health = 0; // sets health to zero
+    }
+  }
+
+
+
 
 
   /**
